@@ -63,7 +63,6 @@ for quarter in tweets_df_small['quarter']:
         tweets_dict[quarter].append(tweet)
 
 pprint(tweets_dict)
-pprint(tweets_df_small)
 
 # return df as a dictionary
     # "Quarter 1 2020" : [tweet1, tweet2, tweet3 ...]
