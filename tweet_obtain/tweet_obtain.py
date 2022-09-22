@@ -1,18 +1,19 @@
 import tweepy as tw
 import pandas as pd
+import datetime as dt
+from pprint import pprint
 
-api_key = "d3o8KDkIsCalgWGRG94Aiz1kD"
-api_secret = "R4ctU7EXikABReWWRP5tuPsrfFgpwiHcitArEWRzFksX8Xe285"
+api_key = "GrD31hjfaqUZumgMWerT7BojE"
+api_secret = "WrcoBU5OQR0439mgbrGzybuwMDwjQriM8NbqAMe7vaRK1MpMjz"
 
 auth = tw.OAuthHandler(api_key, api_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
-
 # get tweets from the API
-search_query = "retail technology iot since:2015-01-01 -filter:retweets"
+search_query = "retail technology -filter:retweets"
 tweets = tw.Cursor(api.search_tweets,
               q=search_query,
-              lang="en").items(10000)
+              lang="en").items(1000) # adjust no. tweets here!
 
 # store the API responses in a list
 tweets_copy = []
@@ -20,10 +21,8 @@ for tweet in tweets:
     tweets_copy.append(tweet)
 print("Total Tweets fetched:", len(tweets_copy))
 
-# intialize the dataframe
+# intialize and populate the dataframe
 tweets_df = pd.DataFrame()
-
-# populate the dataframe
 for tweet in tweets_copy:
     hashtags = []
     try:
@@ -40,14 +39,32 @@ for tweet in tweets_copy:
                                                'text': text, 
                                                'hashtags': [hashtags if hashtags else None],
                                                'source': tweet.source})])
-    tweets_df = tweets_df.reset_index(drop=True)
+    tweets_df = tweets_df.reset_index(drop=True) # rate limit, tweepy might sleep for 10 minutes
 
 # view the dataframe
-tweets_df.columns # user_name, user_location, user_description, user_verified, date, text, hashtags, source
-tweets_df.shape
+#tweets_df.columns # user_name, user_location, user_description, user_verified, date, text, hashtags, source
+#tweets_df.shape
 
 # classify tweets in quarters
-tweets_df.date.head()
+def addQuarter(df):
+    df['date'] = pd.to_datetime(df['date']).dt.tz_localize(None)
+    # add new column 'quarter'
+    df['quarter'] = df['date'].dt.to_period('Q')
+addQuarter(tweets_df)
 
+# change dataframe into dictionary
+tweets_df_small = tweets_df.iloc[:,[8,5]]
+tweets_df_small['quarter'] = tweets_df_small['quarter'].astype(str) # i ran this twice
+# tweets_dict = tweets_df_small.set_index('quarter').to_dict('list') # FIX!
+tweets_dict = {}
+for quarter in tweets_df_small['quarter']:
+    tweets_dict[quarter] = []
+    for tweet in tweets_df_small['text']:
+        tweets_dict[quarter].append(tweet)
 
+pprint(tweets_dict)
+pprint(tweets_df_small)
 
+# return df as a dictionary
+    # "Quarter 1 2020" : [tweet1, tweet2, tweet3 ...]
+    # "Quarter 2 2020" : [tweet1, tweet2, tweet3 ...]
