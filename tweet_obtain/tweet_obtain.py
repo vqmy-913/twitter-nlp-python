@@ -31,14 +31,14 @@ for tweet in tweets_copy:
         text = api.get_status(id=tweet.id, tweet_mode='extended').full_text
     except:
         pass
-    tweets_df = tweets_df.append(pd.DataFrame({'user_name': tweet.user.name, 
+    tweets_df = pd.concat([tweets_df,pd.DataFrame({'user_name': tweet.user.name, 
                                                'user_location': tweet.user.location,\
                                                'user_description': tweet.user.description,
                                                'user_verified': tweet.user.verified,
                                                'date': tweet.created_at,
                                                'text': text, 
                                                'hashtags': [hashtags if hashtags else None],
-                                               'source': tweet.source}))
+                                               'source': tweet.source})])
     tweets_df = tweets_df.reset_index(drop=True)
 
 # show the dataframe
