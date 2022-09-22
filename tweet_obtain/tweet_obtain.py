@@ -7,6 +7,7 @@ api_secret = "R4ctU7EXikABReWWRP5tuPsrfFgpwiHcitArEWRzFksX8Xe285"
 auth = tw.OAuthHandler(api_key, api_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
+
 # get tweets from the API
 search_query = "retail technology iot since:2015-01-01 -filter:retweets"
 tweets = tw.Cursor(api.search_tweets,
@@ -41,5 +42,12 @@ for tweet in tweets_copy:
                                                'source': tweet.source})])
     tweets_df = tweets_df.reset_index(drop=True)
 
-# show the dataframe
-tweets_df.head()
+# view the dataframe
+tweets_df.columns # user_name, user_location, user_description, user_verified, date, text, hashtags, source
+tweets_df.shape
+
+# classify tweets in quarters
+tweets_df.date.head()
+
+
+
