@@ -55,15 +55,16 @@ addQuarter(tweets_df)
 # change dataframe into dictionary
 tweets_df_small = tweets_df.iloc[:,[8,5]]
 tweets_df_small['quarter'] = tweets_df_small['quarter'].astype(str) # i ran this twice
-# tweets_dict = tweets_df_small.set_index('quarter').to_dict('list') # FIX!
+
 tweets_dict = {}
 for quarter in tweets_df_small['quarter']:
     tweets_dict[quarter] = []
     for tweet in tweets_df_small['text']:
         tweets_dict[quarter].append(tweet)
 
+# print dictionary
 pprint(tweets_dict)
 
-# return df as a dictionary
+# result: return tweets in a dictionary
     # "Quarter 1 2020" : [tweet1, tweet2, tweet3 ...]
     # "Quarter 2 2020" : [tweet1, tweet2, tweet3 ...]
