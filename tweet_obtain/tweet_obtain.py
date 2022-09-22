@@ -42,4 +42,4 @@ for tweet in tweets_copy:
     tweets_df = tweets_df.reset_index(drop=True)
 
 # show the dataframe
-print(tweets_df.head())
+tweets_df.head()
