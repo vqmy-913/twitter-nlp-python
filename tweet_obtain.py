@@ -3,8 +3,8 @@ import pandas as pd
 import datetime as dt
 import config
 
-TWEETY_API_KEY = "GrD31hjfaqUZumgMWerT7BojE"
-TWEETY_API_SECRET = "WrcoBU5OQR0439mgbrGzybuwMDwjQriM8NbqAMe7vaRK1MpMjz"
+auth = tw.OAuthHandler(config.TWEETY_API_KEY, config.TWEETY_API_SECRET)
+api = tw.API(auth, wait_on_rate_limit=True)
 
 def populateDataframe(tweets_copy):
     tweets_df = pd.DataFrame()
@@ -40,7 +40,8 @@ def addQuarter(df):
     # add new column 'quarter'
     df['quarter'] = df['date'].dt.to_period('Q')
 
-def dataframeToDict(df):
+def dataframeToDict(tweets_df):
+
     tweets_df_small = tweets_df.iloc[:,[8,5]]
     tweets_df_small['quarter'] = tweets_df_small['quarter'].astype(str) # i ran this twice
 
@@ -54,24 +55,26 @@ def dataframeToDict(df):
 
 # get tweets from the API
 def fetchTweets():
-    auth = tw.OAuthHandler(TWEETY_API_KEY, TWEETY_API_SECRET)
-    api = tw.API(auth, wait_on_rate_limit=True)
     search_query = "retail technology -filter:retweets"
     tweets = tw.Cursor(api.search_tweets,
                 q=search_query,
-                lang="en").items(1000) # adjust no. of tweets here!
+                lang="en").items(10) # adjust no. of tweets here!
 
     # store the API responses in a list
     tweets_copy = []
     for tweet in tweets:
         tweets_copy.append(tweet)
 
-    print("Total Tweets fetched:", len(tweets_copy))
+    # print("Total Tweets fetched:", len(tweets_copy))
 
     # intialize and populate the dataframe
     tweets_df = populateDataframe(tweets_copy)
+
     # classify tweets in quarters
     addQuarter(tweets_df)
+
+    # print(tweets_df)
+    
     # change dataframe into dictionary
     tweets_dict = dataframeToDict(tweets_df)
 
