@@ -41,6 +41,7 @@ def addQuarter(df):
     df['quarter'] = df['date'].dt.to_period('Q')
 
 def dataframeToDict(tweets_df):
+
     tweets_df_small = tweets_df.iloc[:,[8,5]]
     tweets_df_small['quarter'] = tweets_df_small['quarter'].astype(str) # i ran this twice
 
@@ -73,7 +74,7 @@ def fetchTweets():
     addQuarter(tweets_df)
 
     # print(tweets_df)
-
+    
     # change dataframe into dictionary
     tweets_dict = dataframeToDict(tweets_df)
 
