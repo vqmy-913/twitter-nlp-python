@@ -99,7 +99,7 @@ tweet belongs to,this is followed by converting the data in nested list to a dat
 ends with writing the data of the dataframe to an enxcel sheet which will then be outputted on the
 dashboard using Power BI
 """
-def sentimental_analysis():
+def sentimental_analysis() -> None:
     NLU_authentication()
 
     tweets_dict = tweet_obtain.fetchTweets()
