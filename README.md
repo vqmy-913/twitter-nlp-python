@@ -20,3 +20,8 @@ Relative commands that you might need: (Ref: https://docs.python.org/3/)
 `pip install --upgrade <module_name>=version>`
 
 ...More steps to be added as we progress towards MVP...
+
+A few potentials for the future:
+- User input feature – can we do this to prepare for Expo Night?
+- Scale and automate to obtain a greater number of Tweets
+- Cloud migration and relevant technologies – this can be a discussion for during the Expo Night
