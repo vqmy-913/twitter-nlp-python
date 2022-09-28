@@ -90,14 +90,14 @@ def analyse_keywords(keywords: list) -> list:
         return keywords_sentiments_emotions
 
 """
-Performs the sentimental analysis on the tweets obtained for the keyword enetered by user.
+Performs the sentimental analysis on the tweets obtained for the keyword entered by user.
 
 Begins by establishing a secure connection, followed by retrieving the tweets from tweet_obtain.py,
 loops through all the tweets by quarter, performs a sentimental analysis on each of them, and stores
 the sentiment associated with the tweet in a nested list along with the quarter of the year that
-tweet belongs to,this is followed by converting the data in nested list to a dataframe and finally
-ends with writing the data of the dataframe to an enxcel sheet which will then be outputted on the
-dashboard using Power BI
+tweet belongs to. This is followed by converting the data in nested list to a dataframe and finally
+ends with writing the data of the dataframe to an excel sheet which will then be outputted on the
+dashboard using Power BI.
 """
 def sentimental_analysis() -> None:
     NLU_authentication()
